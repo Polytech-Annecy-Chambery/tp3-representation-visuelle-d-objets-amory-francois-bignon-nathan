@@ -8,7 +8,7 @@ import OpenGL.GL as gl
 
 class House:
     # Constructor
-    def __init__(self, parameters = {}) :  
+    def __init__(self, parameters = {}) :
         # Parameters
         # position: position of the house
         # orientation: orientation of the house
@@ -16,30 +16,36 @@ class House:
         # Sets the parameters
         self.parameters = parameters
 
-        # Sets the default parameters 
+        # Sets the default parameters
         if 'position' not in self.parameters:
-            self.parameters['position'] = [0, 0, 0]  
+            self.parameters['position'] = [0, 0, 0]
         if 'orientation' not in self.parameters:
-            self.parameters['orientation'] = 0  
-                
+            self.parameters['orientation'] = 0
+
         # Objects list
         self.objects = []
 
     # Getter
     def getParameter(self, parameterKey):
         return self.parameters[parameterKey]
-    
+
     # Setter
     def setParameter(self, parameterKey, parameterValue):
         self.parameters[parameterKey] = parameterValue
         return self
-       
-    # Adds an object    
+
+    # Adds an object
     def add(self, x):
         self.objects.append(x)
         return self
-            
-    # Draws the house      
-    def draw(self):  
-        # A compléter en remplaçant pass par votre code
-        pass        
+
+    # Draws the house
+    def draw(self):
+        gl.glPushMatrix()
+        gl.glRotatef(self.parameters['orientation'],0,0,1)
+        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+
+        for x in self.objects:
+            x.draw()
+
+        gl.glPopMatrix()
