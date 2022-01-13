@@ -106,7 +106,7 @@ def main():
      #configuration = Q5a()
      #configuration = Q5b()
      configuration = Q5c1()
-    # configuration = Q5c2()
+     #configuration = Q5c2()
     # configuration = Q5d()
     # configuration = Q6()
      configuration.display()

@@ -80,32 +80,45 @@ class Section:
 
     # Creates the new sections for the object x
     def createNewSections(self, x):
-        if self.canCreateOpening(x):
-            L = []
-            h_0 = self.parameters['height']
-            w_1 = self.parameters['width'] - x.parameters['position'][0]
-            x_2 = x.parameters['position'][0]
-            z_2 = x.parameters['position'][2] + x.parameters['height']
-            w_2 = x.parameters['width']
-            h_2 = self.parameters['height'] - z_2
-            x_3 = x_2
-            w_3 = w_2
-            h_3 = x.parameters['position'][2]
-            x_4 = x.parameters['width'] + x.parameters['position'][0]
-            w_4 = self.parameters['width'] - x.parameters['position'][0] - x.parameters['width']
-            if w_1 != 0:
-                section1 = Section({'position' : [0,0,0], 'width' : w_1, 'height' : h_0})
-                L.append(section1)
-            if h_2 != 0:
-                section2 = Section({'position' : [x_2,0,z_2], 'width' : w_2, 'height' : h_2})
-                L.append(section2)
-            if h_3 != 0:
-                section3 = Section({'position' : [x_3,0,0], 'width' : w_3, 'height' : h_3})
-                L.append(section3)
-            if w_4 != 0:
-                section4 = Section({'position' : [x_4,0,0], 'width' : w_4, 'height' : h_0})
-                L.append(section4)
-            return L
+        if self.canCreateOpening(x) :
+          sections = []
+          if x.parameters['position'][0] - self.parameters['position'][0] > 0:
+              s1 = Section({'position': self.parameters['position'], \
+                            'width': x.parameters['position'][0] - self.parameters['position'][0], \
+                            'height': self.parameters['height'], \
+                            'thickness': self.parameters['thickness'],\
+                            'color' :self.parameters['color']})
+          sections.append(s1)
+
+
+          if self.parameters['position'][2] + self.parameters['height'] - x.parameters['position'][2] - x.parameters['height'] > 0:
+              s2 = Section({'position': [x.parameters['position'][0],self.parameters['position'][1], x.parameters['position'][2]], \
+                            'width': x.parameters['width'], \
+                            'height': self.parameters['height'] - x.parameters['height'] - x.parameters['position'][2], \
+                            'thickness': self.parameters['thickness'], \
+                            'color' :[0, 1, 0]})
+              sections.append(s2)
+
+
+          if x.parameters['position'][2] - self.parameters['position'][2] > 0:
+              s3 = Section({'position': [x.parameters['position'][0], self.parameters['position'][1], self.parameters['position'][2]], \
+                            'width': x.parameters['width'], \
+                            'height': x.parameters['position'][2] - self.parameters['position'][2],\
+                            'thickness': self.parameters['thickness'], \
+                            'color' :[0, 0, 1]})
+              sections.append(s3)
+
+
+          if self.parameters['position'][0] + self.parameters['width'] - x.parameters['position'][0] - x.parameters['width'] > 0:
+              s4 = Section({'position': [x.parameters['position'][0] + x.parameters['width'], self.parameters['position'][1], self.parameters['position'][2]], \
+                            'width': self.parameters['width'] - s1.parameters['width'] - x.parameters['width'], \
+                            'height': self.parameters['height'] - x.parameters['height'] - x.parameters['position'][2],\
+                            'thickness': self.parameters['thickness'], \
+                            'color':[self.parameters['color']]})
+              sections.append(s4)
+
+          return sections
+
 
     # Draws the edges
     def drawEdges(self):
